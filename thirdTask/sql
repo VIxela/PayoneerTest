@@ -1,0 +1,19 @@
+SELECT PlayerName, MAX(score)
+FROM Game_Tbl inner join Player_Tbl ON Player_tbl.Playerid = Game_Tbl.Playerid
+GROUP BY Playername
+
+SELECT PlayerName
+FROM Player_Tbl
+WHERE PlayerId NOT IN (SELECT PlayerId FROM Game_Tbl WHERE PlayerId IS NOT NULL);
+
+SELECT a.PlayerName,  b.TotalScore
+FROM Player_Tbl a
+JOIN
+  (
+    SELECT SUM(score) TotalScore, PlayerId
+    FROM Game_Tbl
+    GROUP BY PlayerId
+  ) b ON a.PlayerId = b.PlayerId
+
+  WHERE b.TotalScore > 100
+;
